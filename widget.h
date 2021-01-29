@@ -2,6 +2,13 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QCanBus>
+#include <QCanBusDevice>
+#include <QDebug>
+#include <QDate>
+#include <QTimer>
+#include <QTime>
+#include <string>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
