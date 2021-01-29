@@ -2,8 +2,6 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include <QCanBus>
-#include <QCanBusDevice>
 #include <QDebug>
 #include <QDate>
 #include <QTimer>
@@ -24,7 +22,17 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+
 private:
     Ui::Widget *ui;
+    Can_init *pobj_can_init;
+
+    typedef enum on_off
+        {
+            OFF,
+            ON
+        }TE_on_off;
+
+
 };
 #endif // WIDGET_H
