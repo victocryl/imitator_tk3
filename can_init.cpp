@@ -7,6 +7,8 @@ Can_init::Can_init(Ui::Widget *_ui)
     k = 0;   // счётчик разов создания объекта device
     pobj_ui = _ui;
 
+    connect(pobj_ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(can_channel_control()));  // управляем каналом CAN (подкл/откл)
+
 
 }
 

@@ -10,12 +10,14 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    can_corresp.cpp \
     can_init.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
     PCANBasic.h \
+    can_corresp.h \
     can_init.h \
     widget.h
 

@@ -11,7 +11,7 @@ Widget::Widget(QWidget *parent)
 
     pobj_can_init->can_init();
 
-    connect(ui->pushButton, SIGNAL(clicked(bool)), pobj_can_init, SLOT(can_channel_control()));  // управляем каналом CAN (подкл/откл)
+//    connect(ui->pushButton, SIGNAL(clicked(bool)), pobj_can_init, SLOT(can_channel_control()));  // управляем каналом CAN (подкл/откл)
 
 
 
