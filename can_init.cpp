@@ -106,8 +106,6 @@ void Can_init::can_channel_control(void)
             pobj_ui->pushButton->setText("отключить адаптер x");
 
             // запускаем таймер посылок can
-            Can_corresp::a++;
-            qDebug() << Can_corresp::a;
             Can_corresp::pobj_timer_can->start(1000);
 
         }

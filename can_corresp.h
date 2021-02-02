@@ -31,7 +31,7 @@ public:
     uint8_t tx[8];          // отправляемая посылка
     uint8_t rx[8];          // получаемая посылка
     static QTimer *pobj_timer_can; // ук. на объект таймера
-    static int a;
+
 
 /************ МЕТОДЫ ****************************************/
 static void timer_start(void);
@@ -45,3 +45,14 @@ static void timer_start(void);
 
 
 #endif // CAN_CORRESP_H
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,9 @@
 #include "can_corresp.h"
 
+/*****************  статические атирибуты ***********************/
+QTimer *Can_corresp::pobj_timer_can = new QTimer();
+
+
 // конструктор
 Can_corresp::Can_corresp()
 {
@@ -9,20 +13,9 @@ Can_corresp::Can_corresp()
     memcpy(tx, init_array, 8);
 
 
-//    pobj_timer_can = new QTimer();   // создаём объект таймера для can
-
-
 
 }
-
 
 // деструктор
 Can_corresp::~Can_corresp(){}
 
-
-void Can_corresp::timer_start(void)
-{
-//    pobj_timer_can->start();
-}
-
-int Can_corresp::a = 3;
