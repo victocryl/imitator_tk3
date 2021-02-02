@@ -2074,7 +2074,7 @@ color: rgb(0, 0, 0);</string>
          </font>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
        </widget>
       </item>

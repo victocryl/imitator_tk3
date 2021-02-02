@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("имитатор СУ верхнего уровня для УК типа АК-3");
     pobj_can_init = new Can_init(ui);
-    pobj_can_corresp = new Can_corresp();
+//    pobj_can_corresp = new Can_corresp();
 
     pobj_can_init->can_init();  // иницализируем канал can
 

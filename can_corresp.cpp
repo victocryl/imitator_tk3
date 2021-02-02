@@ -1,7 +1,7 @@
 #include "can_corresp.h"
 
 /*****************  статические атирибуты ***********************/
-QTimer *Can_corresp::pobj_timer_can = new QTimer();
+QTimer *Can_corresp::pobj_can_timer = new QTimer();
 
 
 // конструктор
@@ -12,10 +12,18 @@ Can_corresp::Can_corresp()
     memcpy(tx, init_array, 8);
     memcpy(tx, init_array, 8);
 
+    // коннекты
+//    connect(device, SIGNAL(framesReceived()), this, SLOT(on_mes_received()));
+
 
 
 }
 
 // деструктор
 Can_corresp::~Can_corresp(){}
+
+void can_tx(void)
+{
+
+}
 

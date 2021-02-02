@@ -106,8 +106,8 @@ void Can_init::can_channel_control(void)
             pobj_ui->pushButton->setText("отключить адаптер x");
 
             // запускаем таймер посылок can
-            Can_corresp::pobj_timer_can->start(1000);
-
+            Can_corresp::pobj_can_timer->start(1000);
+            can_status = ON;
         }
         else if(device->state() == QCanBusDevice::ConnectedState)
         {
@@ -123,6 +123,8 @@ void Can_init::can_channel_control(void)
             pobj_ui->label_2->setStyleSheet("QLabel{color: rgb(0, 0, 0); }");  // делаем текст чёрным
             // переименовываем кнопку на "отключить адаптер"
             pobj_ui->pushButton->setText("подключить адаптер ->");
+            // останавливаем таймер посылок can
+            Can_corresp::pobj_can_timer->stop();
             can_status = OFF;
         }
         else
