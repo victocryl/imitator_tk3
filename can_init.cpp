@@ -7,7 +7,6 @@ Can_init::Can_init(Ui::Widget *_ui)
     k = 0;   // счётчик разов создания объекта device
     pobj_ui = _ui;
 
-    connect(pobj_ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(can_channel_control()));  // управляем каналом CAN (подкл/откл)
 
 
 }
@@ -100,13 +99,17 @@ void Can_init::can_channel_control(void)
                 device->connectDevice();
             }
 
-
-
             // выводим инфо о подключении адаптера
             pobj_ui->label_2->setText("адаптер подключен: наименование " + device_name + "; " + "номер порта: " + port_number);
             pobj_ui->label_2->setStyleSheet("QLabel{color: rgb(0, 0, 0); }");  // делаем текст чёрным
             // переименовываем кнопку на "отключить адаптер"
             pobj_ui->pushButton->setText("отключить адаптер x");
+
+            // запускаем таймер посылок can
+            Can_corresp::a++;
+            qDebug() << Can_corresp::a;
+            Can_corresp::pobj_timer_can->start(1000);
+
         }
         else if(device->state() == QCanBusDevice::ConnectedState)
         {

@@ -9,6 +9,7 @@
 #include <string>
 
 #include "can_init.h"
+#include "can_corresp.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -24,8 +25,10 @@ public:
 
 
 private:
+/******* ОСНОВНЫЕ РАБОЧИЕ АТРИБУТЫ **************************/
     Ui::Widget *ui;
     Can_init *pobj_can_init;
+    Can_corresp *pobj_can_corresp;
 
     typedef enum on_off
         {
