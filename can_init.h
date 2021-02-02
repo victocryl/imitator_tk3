@@ -7,7 +7,7 @@
 #include <QDebug>
 
 #include "ui_widget.h"
-#include "can_corresp.h"
+//#include "can_corresp.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }

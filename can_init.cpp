@@ -1,4 +1,5 @@
 #include "can_init.h"
+#include "can_corresp.h"
 
 
 // конструктор
