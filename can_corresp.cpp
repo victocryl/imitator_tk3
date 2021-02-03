@@ -48,6 +48,19 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
 // деструктор
 Can_corresp::~Can_corresp(){}
 
+/* ***************************************************************************************
+ *  МЕТОДЫ
+ * **************************************************************************************/
+
+/* @brief  Метод разбора посылки от УКВ
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::rx_parsing_ID_UKV(void)
+{
+    qDebug() << "rx_parsing_ID_UKV";
+}
+
 
 /* ***************************************************************************************
  *  СЛОТЫ
@@ -70,7 +83,7 @@ void Can_corresp::can_tx(void)
     {
         // Посылаем посылку
         QCanBusFrame frame_tx;
-        frame_tx.setFrameId(ID_UKV);
+        frame_tx.setFrameId(ID_H_L);
         frame_tx.setPayload(tx);
         pobj_can_init->device->writeFrame(frame_tx);
 
@@ -99,10 +112,11 @@ void Can_corresp::can_rx(void)
         // здесь идёт разбор посылок. в данном случае мы ждём только одну
         switch(tmp_id)
         {
-        case ID_H_L:
+        case ID_UKV:
             // перегрузка данных из массива-буфера char *data в int-овый массив rx
             for(uint8_t i = 0; i < DATA_NUM; i++)
             {rx[i] = (uint8_t)(data[i]);}
+            rx_parsing_ID_UKV();   // вызываем ф-ию разбора посылки
             break;
         default: break;
         }

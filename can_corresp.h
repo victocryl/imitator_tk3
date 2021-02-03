@@ -10,8 +10,8 @@
 #include "can_init.h"
 
 // айдишники посылок can
-#define ID_H_L 0x00AE0100   // id СУ высокого уровня (входящая)
-#define ID_UKV 0x00AC0100   // id УКВ (исходящая)
+#define ID_H_L 0x00AE0100   // id СУ высокого уровня (исходящая)
+#define ID_UKV 0x00AC0100   // id УКВ (входящая)
 
 #define SYS_RESET 0x55
 
@@ -80,6 +80,7 @@ void speed_decrease(void);
 void temp_increase(void);
 void temp_decrease(void);
 void btn_reset(void);
+void rx_parsing_ID_UKV(void);
 
 
 };
