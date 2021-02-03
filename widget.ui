@@ -924,7 +924,7 @@
                 <string notr="true">background-color: rgb(255, 225, 134);</string>
                </property>
                <property name="text">
-                <string>ОК</string>
+                <string>ошибок нет</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>

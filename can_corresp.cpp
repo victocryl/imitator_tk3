@@ -39,6 +39,9 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
     connect(pobj_ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(temp_increase()));  // прибавить
     connect(pobj_ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(temp_decrease()));  // прибавить
 
+    // сброс ошибок
+    connect(pobj_ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(btn_reset()));
+
 
 }
 
@@ -230,4 +233,17 @@ void Can_corresp::temp_decrease(void)
     }
 }
 
-
+/* @brief  Метод слота на нажатие кнопки сброс
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::btn_reset(void)
+{
+    uint8_t tmp_sys_stat = tx[DATA0];
+    if(tmp_sys_stat == SYS_ALARM)
+    {
+        tx[DATA0] = SYS_RESET;
+        pobj_ui->label_15->setText("ошибок нет");
+        pobj_ui->label_15->setStyleSheet("QLabel{color: rgb(0, 0, 0); }");  // делаем текст чёрным
+    }
+}
