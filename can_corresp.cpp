@@ -12,7 +12,7 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
     // инициализируем массивы can
     tx.resize(8);   // устанавливаем размер массива QByteArray tx
     for(uint8_t i = 0; i < DATA_NUM; i++)   // memcpy нельзя использовать из-за проблем приведения даных
-    {tx[i] = 2;}
+    {tx[i] = 0;}
     uint8_t init_array[8] = {0,0,0,0,0,0,0,0};  // массив для инициализации
     memcpy(rx, init_array, 8);
 
@@ -24,7 +24,10 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
 //    connect(pobj_can_init->device, SIGNAL(framesReceived()), this, SLOT(can_rx()));   // не могу понять, почему этот коннект здесь не работает (сделал в widget.cpp)
 
     // задание параметров
-    connect(pobj_ui->checkBox_2, SIGNAL(stateChanged(int)), this, SLOT(checkBox_2_changed()));
+    connect(pobj_ui->checkBox, SIGNAL(stateChanged(int)), this, SLOT(checkBox_changed()));      // режим отключено
+    connect(pobj_ui->checkBox_2, SIGNAL(stateChanged(int)), this, SLOT(checkBox_2_changed()));  // режим включено
+    connect(pobj_ui->checkBox_3, SIGNAL(stateChanged(int)), this, SLOT(checkBox_3_changed()));  // режим вентиляция
+    connect(pobj_ui->checkBox_5, SIGNAL(stateChanged(int)), this, SLOT(checkBox_5_changed()));  // режим охлаждение
 
 
 }
@@ -93,16 +96,69 @@ void Can_corresp::can_rx(void)
     }
 }
 
-/* @brief  Метод слота на клик checkBox_2
+/* @brief  Метод слота на клик checkBox (отключено)
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::checkBox_changed(void)
+{
+    uint8_t tmp_sys_mode = tx[DATA3];   // считываем текущий режим
+    // снимаем галочки со всех других чекбоксов
+    if(pobj_ui->checkBox_2->checkState() == Qt::Checked){pobj_ui->checkBox_2->setCheckState(Qt::Unchecked);}
+    if(pobj_ui->checkBox_3->checkState() == Qt::Checked){pobj_ui->checkBox_3->setCheckState(Qt::Unchecked);}
+    if(pobj_ui->checkBox_5->checkState() == Qt::Checked){pobj_ui->checkBox_5->setCheckState(Qt::Unchecked);}
+    // устанавливаем статус системы в tx
+    if(pobj_ui->checkBox->checkState() == Qt::Checked){tx[DATA3] = SYS_OFF;}
+    else{tx[DATA3] = tmp_sys_mode;}
+}
+
+/* @brief  Метод слота на клик checkBox_2 (включено)
  * @param  None
  * @retval None
  */
 void Can_corresp::checkBox_2_changed(void)
 {
-    qDebug() << "checkBox_2_changed";
+    uint8_t tmp_sys_mode = tx[DATA3];   // считываем текущий режим
+    // снимаем галочки со всех других чекбоксов
+    if(pobj_ui->checkBox->checkState() == Qt::Checked){pobj_ui->checkBox->setCheckState(Qt::Unchecked);}
+    if(pobj_ui->checkBox_3->checkState() == Qt::Checked){pobj_ui->checkBox_3->setCheckState(Qt::Unchecked);}
+    if(pobj_ui->checkBox_5->checkState() == Qt::Checked){pobj_ui->checkBox_5->setCheckState(Qt::Unchecked);}
+    // устанавливаем статус системы в tx
+    if(pobj_ui->checkBox_2->checkState() == Qt::Checked){tx[DATA3] = SYS_ON;}
+    else{tx[DATA3] = tmp_sys_mode;}
 }
 
+/* @brief  Метод слота на клик checkBox_3 (вентиляция)
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::checkBox_3_changed(void)
+{
+    uint8_t tmp_sys_mode = tx[DATA3];   // считываем текущий режим
+    // снимаем галочки со всех других чекбоксов
+    if(pobj_ui->checkBox->checkState() == Qt::Checked){pobj_ui->checkBox->setCheckState(Qt::Unchecked);}
+    if(pobj_ui->checkBox_2->checkState() == Qt::Checked){pobj_ui->checkBox_2->setCheckState(Qt::Unchecked);}
+    if(pobj_ui->checkBox_5->checkState() == Qt::Checked){pobj_ui->checkBox_5->setCheckState(Qt::Unchecked);}
+    // устанавливаем статус системы в tx
+    if(pobj_ui->checkBox_3->checkState() == Qt::Checked){tx[DATA3] = SYS_VENT;}
+    else{tx[DATA3] = tmp_sys_mode;}
+}
 
+/* @brief  Метод слота на клик checkBox_5 (охлаждение)
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::checkBox_5_changed(void)
+{
+    uint8_t tmp_sys_mode = tx[DATA3];   // считываем текущий режим
+    // снимаем галочки со всех других чекбоксов
+    if(pobj_ui->checkBox->checkState() == Qt::Checked){pobj_ui->checkBox->setCheckState(Qt::Unchecked);}
+    if(pobj_ui->checkBox_2->checkState() == Qt::Checked){pobj_ui->checkBox_2->setCheckState(Qt::Unchecked);}
+    if(pobj_ui->checkBox_3->checkState() == Qt::Checked){pobj_ui->checkBox_3->setCheckState(Qt::Unchecked);}
+    // устанавливаем статус системы в tx
+    if(pobj_ui->checkBox_5->checkState() == Qt::Checked){tx[DATA3] = SYS_A_COND;}
+    else{tx[DATA3] = tmp_sys_mode;}
+}
 
 
 

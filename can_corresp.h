@@ -50,12 +50,27 @@ public:
         DATA_NUM
     }TE_canbytes;
 
+/*******  enum статусов системы *************/
+    typedef enum s_st
+    {
+        SYS_OFF,
+        SYS_ON,
+        SYS_VENT,
+        SYS_A_COND,
+        SYS_ALARM,
+    }TE_sys_stat;
+
+
+
 
 /************ СЛОТЫ ****************************************/
 public slots:
 void can_tx(void);
 void can_rx(void);
+void checkBox_changed(void);
 void checkBox_2_changed(void);
+void checkBox_3_changed(void);
+void checkBox_5_changed(void);
 
 
 };

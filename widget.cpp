@@ -12,6 +12,7 @@ Widget::Widget(QWidget *parent)
     pobj_can_corresp = new Can_corresp(ui, pobj_can_init);
 
     pobj_can_init->can_init();  // иницализируем канал can
+    ui->checkBox->setCheckState(Qt::Checked);   // устанавливаем статус "Отключено" по умолчанию
 
 
     /************** КОННЕКТЫ ************************************/
