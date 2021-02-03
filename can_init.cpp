@@ -6,7 +6,9 @@
 Can_init::Can_init(Ui::Widget *_ui)
 {
     k = 0;   // счётчик разов создания объекта device
+    pobj_can_timer = new QTimer();
     pobj_ui = _ui;
+
 
 
 
@@ -107,7 +109,7 @@ void Can_init::can_channel_control(void)
             pobj_ui->pushButton->setText("отключить адаптер x");
 
             // запускаем таймер посылок can
-            Can_corresp::pobj_can_timer->start(1000);
+            pobj_can_timer->start(1000);
             can_status = ON;
         }
         else if(device->state() == QCanBusDevice::ConnectedState)
@@ -125,7 +127,7 @@ void Can_init::can_channel_control(void)
             // переименовываем кнопку на "отключить адаптер"
             pobj_ui->pushButton->setText("подключить адаптер ->");
             // останавливаем таймер посылок can
-            Can_corresp::pobj_can_timer->stop();
+            pobj_can_timer->stop();
             can_status = OFF;
         }
         else

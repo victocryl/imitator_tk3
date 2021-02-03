@@ -27,8 +27,8 @@ public:
 private:
 /******* ОСНОВНЫЕ РАБОЧИЕ АТРИБУТЫ **************************/
     Ui::Widget *ui;
-    Can_init *pobj_can_init;
-    Can_corresp *pobj_can_corresp;
+    Can_init *pobj_can_init;        // указатель на объект Can_init
+    Can_corresp *pobj_can_corresp;  // указатель на объект Can_corresp
 
     typedef enum on_off
         {

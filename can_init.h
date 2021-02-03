@@ -28,15 +28,22 @@ uint8_t k;   // счётчик разов создания объекта device
     Ui::Widget *pobj_ui;        // указатель на объект ui
     QString port_number;
     QString device_name;
+    QTimer *pobj_can_timer;     // указатель на объект таймера
     QCanBusDevice *device;      // объект CAN канала
-    uint8_t can_status = OFF;   // статус канала CAN
+    uint8_t can_status;         // статус канала CAN
 
+//    enum on_off
+//        {
+//            OFF,
+//            ON
+//        };
 
     typedef enum on_off
         {
             OFF,
             ON
         }TE_on_off;
+
 
 /******* МЕТОДЫ **************************/
     void can_init(void);
