@@ -19,7 +19,7 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
 
     // делаем отправку посылок по таймеру
     connect(pobj_can_init->pobj_can_timer, SIGNAL(timeout()), this, SLOT(can_tx()));
-//    connect(pobj_c_i->device, SIGNAL(framesReceived()), this, SLOT(can_rx()));
+//    connect(pobj_can_init->device, SIGNAL(framesReceived()), this, SLOT(can_rx()));   // не могу понять, почему этот коннект здесь не работает
 
 
 
@@ -59,16 +59,41 @@ void Can_corresp::can_tx(void)
     }
 }
 
+/* @brief  Метод слота на сигнал объекта device на получение посылки
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::can_rx(void)
+{
+//    QCanBusFrame frame_rx = device->readFrame();
+//        QByteArray array = frame_rx.payload();
+//        char *data = array.data();  // массив-буфер
 
-//void Can_corresp::can_rx(void)
-//{
+//        uint32_t tmp_id = frame_rx.frameId();   // считываем ID посылки.
 
-//}
+//        switch(tmp_id)
+//        {
+//        case ID_UK_1:
+//            // перегрузка данных из масива-буфера в int-овый массив can_rx
+//            for(uint8_t i = 0; i < DATA_NUM; i++)
+//            {can_rx_UK1[i] = (uint8_t)(data[i]);}
+//            break;
+
+//        case ID_UK_2:
+//            // перегрузка данных из масива-буфера в int-овый массив can_rx
+//            for(uint8_t i = 0; i < DATA_NUM; i++)
+//            {can_rx_UK2[i] = (uint8_t)(data[i]);}
+//            break;
+
+    static int a = 0;
+    a++;
+    qDebug() << a;
 
 
-//static int a = 0;
-//a++;
-//qDebug() << a;
+}
+
+
+
 
 
 

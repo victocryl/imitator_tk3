@@ -32,12 +32,6 @@ uint8_t k;   // счётчик разов создания объекта device
     QCanBusDevice *device;      // объект CAN канала
     uint8_t can_status;         // статус канала CAN
 
-//    enum on_off
-//        {
-//            OFF,
-//            ON
-//        };
-
     typedef enum on_off
         {
             OFF,

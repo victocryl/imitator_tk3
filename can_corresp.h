@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTimer>
 #include <QTime>
+#include <QCanBusDevice>
 #include "ui_widget.h"
 #include "can_init.h"
 
@@ -52,7 +53,7 @@ public:
 /************ СЛОТЫ ****************************************/
 public slots:
 void can_tx(void);
-//void can_rx(void);
+void can_rx(void);
 
 
 };
