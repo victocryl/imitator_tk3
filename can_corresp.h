@@ -75,6 +75,9 @@ void checkBox_5_changed(void);
 void speed_increase(void);
 void speed_decrease(void);
 
+void temp_increase(void);
+void temp_decrease(void);
+
 
 };
 

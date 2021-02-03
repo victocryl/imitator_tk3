@@ -13,6 +13,8 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
     tx.resize(8);   // устанавливаем размер массива QByteArray tx
     for(uint8_t i = 0; i < DATA_NUM; i++)   // memcpy нельзя использовать из-за проблем приведения даных
     {tx[i] = 0;}
+    tx[DATA2] = 22;                             // задаём начальную желаемую температуру
+    pobj_ui->label_13->setNum(tx[DATA2]);       // и отображаем её в окне
     uint8_t init_array[8] = {0,0,0,0,0,0,0,0};  // массив для инициализации
     memcpy(rx, init_array, 8);
 
@@ -32,6 +34,10 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
     // задание скорости вентилятора
     connect(pobj_ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(speed_increase()));  // прибавить
     connect(pobj_ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(speed_decrease()));  // прибавить
+
+    // установка желаемой температуры
+    connect(pobj_ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(temp_increase()));  // прибавить
+    connect(pobj_ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(temp_decrease()));  // прибавить
 
 
 }
@@ -194,5 +200,34 @@ void Can_corresp::speed_decrease(void)
     }
 }
 
+/* @brief  Метод слота на увеличение желаемой температуры
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::temp_increase(void)
+{
+    uint8_t tmp_temp = tx[DATA2];   // считываем текущую желаемую температуру
+    if(tmp_temp < 27)
+    {
+        tmp_temp++;
+        tx[DATA2] = tmp_temp;
+        pobj_ui->label_13->setNum(tmp_temp);
+    }
+}
+
+/* @brief  Метод слота на уменьшение желаемой температуры
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::temp_decrease(void)
+{
+    uint8_t tmp_temp = tx[DATA2];   // считываем текущую желаемую температуру
+    if(tmp_temp > 16)
+    {
+        tmp_temp--;
+        tx[DATA2] = tmp_temp;
+        pobj_ui->label_13->setNum(tmp_temp);
+    }
+}
 
 
