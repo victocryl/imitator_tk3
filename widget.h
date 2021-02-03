@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QTime>
 #include <string>
+#include <QCheckBox>
 
 #include "can_init.h"
 #include "can_corresp.h"

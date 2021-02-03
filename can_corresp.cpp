@@ -1,4 +1,6 @@
 #include "can_corresp.h"
+#include <QWidget>
+
 
 
 // конструктор
@@ -17,10 +19,12 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
 
 /* *********** коннекты ***********************************************/
 
-
+    // CAN-корреспонденция
     connect(pobj_can_init->pobj_can_timer, SIGNAL(timeout()), this, SLOT(can_tx()));    // отправка посылок по таймеру
 //    connect(pobj_can_init->device, SIGNAL(framesReceived()), this, SLOT(can_rx()));   // не могу понять, почему этот коннект здесь не работает (сделал в widget.cpp)
 
+    // задание параметров
+    connect(pobj_ui->checkBox_2, SIGNAL(stateChanged(int)), this, SLOT(checkBox_2_changed()));
 
 
 }
@@ -89,6 +93,14 @@ void Can_corresp::can_rx(void)
     }
 }
 
+/* @brief  Метод слота на клик checkBox_2
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::checkBox_2_changed(void)
+{
+    qDebug() << "checkBox_2_changed";
+}
 
 
 

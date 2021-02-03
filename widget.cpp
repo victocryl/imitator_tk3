@@ -17,9 +17,6 @@ Widget::Widget(QWidget *parent)
     /************** КОННЕКТЫ ************************************/
     connect(ui->pushButton, SIGNAL(clicked(bool)), this->pobj_can_init, SLOT(can_channel_control()));  // управляем каналом CAN (подкл/откл)
     connect(pobj_can_init->device, SIGNAL(framesReceived()), pobj_can_corresp, SLOT(can_rx()));        // пытался сделать этот коннект в Can_corresp - не получилось
-
-
-
 }
 
 Widget::~Widget()

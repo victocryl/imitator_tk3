@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QCanBusDevice>
+#include <QCheckBox>
 #include "ui_widget.h"
 #include "can_init.h"
 
@@ -54,6 +55,7 @@ public:
 public slots:
 void can_tx(void);
 void can_rx(void);
+void checkBox_2_changed(void);
 
 
 };
