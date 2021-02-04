@@ -93,6 +93,12 @@ void Can_corresp::rx_parsing_ID_UKV(void)
     int tmp_evap = rx[DATA0] - 40;  // температура испарителя
     int tmp_supp = rx[DATA1] - 40;  // температура приточника
 
+    uint8_t del = 3;    // задержка на статус Авария в секундах
+    // k - декрементный счётчик заходов в этот метод
+    // так реализуется задержка, т.к. метод вызывается по таймеру раз в 1с.
+    static uint8_t k = del;
+
+
     if(tmp_evap < -40){pobj_ui->label_27->setNum(0);}  // выводим температуру испарителя
     else{pobj_ui->label_27->setNum(tmp_evap);}
     if(tmp_supp < -40){pobj_ui->label_25->setNum(0);}  // выводим температуру приточника
@@ -100,19 +106,38 @@ void Can_corresp::rx_parsing_ID_UKV(void)
 
     // отображние битов ошибок
     if(rx[DATA2] & BIT0_NO_CAN){pobj_ui->checkBox_11->setCheckState(Qt::Checked);}
-    else{pobj_ui->checkBox_11->setCheckState(Qt::Unchecked);;}
+    else{pobj_ui->checkBox_11->setCheckState(Qt::Unchecked);}
     if(rx[DATA2] & BIT1_PRESS_FAIL){pobj_ui->checkBox_13->setCheckState(Qt::Checked);}
-    else{pobj_ui->checkBox_13->setCheckState(Qt::Unchecked);;}
+    else{pobj_ui->checkBox_13->setCheckState(Qt::Unchecked);}
     if(rx[DATA2] & BIT2_SUPP_TEMP_TOO_HI){pobj_ui->checkBox_12->setCheckState(Qt::Checked);}
-    else{pobj_ui->checkBox_12->setCheckState(Qt::Unchecked);;}
+    else{pobj_ui->checkBox_12->setCheckState(Qt::Unchecked);}
     if(rx[DATA2] & BIT3_SUPP_TEMP_SENS_BREAK){pobj_ui->checkBox_10->setCheckState(Qt::Checked);}
-    else{pobj_ui->checkBox_10->setCheckState(Qt::Unchecked);;}
+    else{pobj_ui->checkBox_10->setCheckState(Qt::Unchecked);}
     if(rx[DATA2] & BIT4_EVAP_TEMP_TOO_LOW){pobj_ui->checkBox_14->setCheckState(Qt::Checked);}
-    else{pobj_ui->checkBox_14->setCheckState(Qt::Unchecked);;}
+    else{pobj_ui->checkBox_14->setCheckState(Qt::Unchecked);}
     if(rx[DATA2] & BIT5_EVAP_TEMP_SENS_BREAK){pobj_ui->checkBox_15->setCheckState(Qt::Checked);}
-    else{pobj_ui->checkBox_15->setCheckState(Qt::Unchecked);;}
+    else{pobj_ui->checkBox_15->setCheckState(Qt::Unchecked);}
 
-
+    // отображние текущего статуса системы
+    if(rx[DATA3] == SYS_OFF){pobj_ui->checkBox_4->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_4->setCheckState(Qt::Unchecked);}
+    if(rx[DATA3] == SYS_ON){pobj_ui->checkBox_6->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_6->setCheckState(Qt::Unchecked);}
+    if(rx[DATA3] == SYS_VENT){pobj_ui->checkBox_7->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_7->setCheckState(Qt::Unchecked);}
+    if(rx[DATA3] == SYS_A_COND){pobj_ui->checkBox_8->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_8->setCheckState(Qt::Unchecked);}
+    if(rx[DATA3] == SYS_ALARM)
+    {
+        k--;
+        if(k < 1)
+        {
+            pobj_ui->checkBox_9->setCheckState(Qt::Checked);    // ставим галочку Авария
+            pobj_ui->label_15->setText("ошибка");
+            pobj_ui->label_15->setStyleSheet("QLabel{color: rgb(255, 10, 0); }");  // делаем текст красным
+            k = del;
+        }
+    }
 }
 
 
@@ -287,11 +312,21 @@ void Can_corresp::temp_decrease(void)
  */
 void Can_corresp::btn_reset(void)
 {
-    uint8_t tmp_sys_stat = tx[DATA0];
-    if(tmp_sys_stat == SYS_ALARM)
+    if(rx[DATA3] == SYS_ALARM)
     {
-        tx[DATA0] = SYS_RESET;
+        pobj_ui->checkBox_9->setCheckState(Qt::Unchecked);  // снимаем галочку со строки авария
         pobj_ui->label_15->setText("ошибок нет");
         pobj_ui->label_15->setStyleSheet("QLabel{color: rgb(0, 0, 0); }");  // делаем текст чёрным
+
+        // устанавливаем галочку в строке Отключено
+        tx[DATA0] = SYS_RESET;
+        if(pobj_ui->checkBox->checkState() == Qt::Unchecked){pobj_ui->checkBox->setCheckState(Qt::Checked);pobj_ui->checkBox->setCheckState(Qt::Checked);}
+
+        // снимаем галочки со всех других чекбоксов
+        if(pobj_ui->checkBox_2->checkState() == Qt::Checked){pobj_ui->checkBox_2->setCheckState(Qt::Unchecked);}
+        if(pobj_ui->checkBox_3->checkState() == Qt::Checked){pobj_ui->checkBox_3->setCheckState(Qt::Unchecked);}
+        if(pobj_ui->checkBox_5->checkState() == Qt::Checked){pobj_ui->checkBox_5->setCheckState(Qt::Unchecked);}
+
+
     }
 }
