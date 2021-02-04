@@ -98,13 +98,21 @@ void Can_corresp::rx_parsing_ID_UKV(void)
     if(tmp_supp < -40){pobj_ui->label_25->setNum(0);}  // выводим температуру приточника
     else{pobj_ui->label_25->setNum(tmp_supp);}
 
+    // отображние битов ошибок
+    if(rx[DATA2] & BIT0_NO_CAN){pobj_ui->checkBox_11->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_11->setCheckState(Qt::Unchecked);;}
+    if(rx[DATA2] & BIT1_PRESS_FAIL){pobj_ui->checkBox_13->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_13->setCheckState(Qt::Unchecked);;}
+    if(rx[DATA2] & BIT2_SUPP_TEMP_TOO_HI){pobj_ui->checkBox_12->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_12->setCheckState(Qt::Unchecked);;}
+    if(rx[DATA2] & BIT3_SUPP_TEMP_SENS_BREAK){pobj_ui->checkBox_10->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_10->setCheckState(Qt::Unchecked);;}
+    if(rx[DATA2] & BIT4_EVAP_TEMP_TOO_LOW){pobj_ui->checkBox_14->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_14->setCheckState(Qt::Unchecked);;}
+    if(rx[DATA2] & BIT5_EVAP_TEMP_SENS_BREAK){pobj_ui->checkBox_15->setCheckState(Qt::Checked);}
+    else{pobj_ui->checkBox_15->setCheckState(Qt::Unchecked);;}
 
-//    if((rx[AH] & DIAG_MASK) == BIT_REZH_OFF){ui->checkBox_29->setCheckState(Qt::Checked);}
-//    else{ui->checkBox_29->setCheckState(Qt::Unchecked);}
 
-
-
-qDebug() << "rx_parsing_ID_UKV";
 }
 
 

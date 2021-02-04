@@ -13,7 +13,16 @@
 #define ID_H_L 0x00AE0100   // id СУ высокого уровня (исходящая)
 #define ID_UKV 0x00AC0100   // id УКВ (входящая)
 
-#define SYS_RESET 0x55
+// биты аварий
+#define BIT0_NO_CAN               (1 << 0)
+#define BIT1_PRESS_FAIL           (1 << 1)
+#define BIT2_SUPP_TEMP_TOO_HI     (1 << 2)
+#define BIT3_SUPP_TEMP_SENS_BREAK (1 << 3)
+#define BIT4_EVAP_TEMP_TOO_LOW    (1 << 4)
+#define BIT5_EVAP_TEMP_SENS_BREAK (1 << 5)
+
+
+#define SYS_RESET 0x55  // команда сброса аварий
 
 
 QT_BEGIN_NAMESPACE
