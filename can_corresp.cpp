@@ -83,12 +83,28 @@ void Can_corresp::can_tx(void)
 
 
 /* @brief  Метод разбора посылки от УКВ
+ * @detail Данные уже загружены в массив rx. Здесь реализуется
+ * оборажение данных в rx на интерфейсе.
  * @param  None
  * @retval None
  */
 void Can_corresp::rx_parsing_ID_UKV(void)
 {
-    qDebug() << "rx_parsing_ID_UKV";
+    int tmp_evap = rx[DATA0] - 40;  // температура испарителя
+    int tmp_supp = rx[DATA1] - 40;  // температура приточника
+
+    if(tmp_evap < -40){pobj_ui->label_27->setNum(0);}  // выводим температуру испарителя
+    else{pobj_ui->label_27->setNum(tmp_evap);}
+    if(tmp_supp < -40){pobj_ui->label_25->setNum(0);}  // выводим температуру приточника
+    else{pobj_ui->label_25->setNum(tmp_supp);}
+
+
+//    if((rx[AH] & DIAG_MASK) == BIT_REZH_OFF){ui->checkBox_29->setCheckState(Qt::Checked);}
+//    else{ui->checkBox_29->setCheckState(Qt::Unchecked);}
+
+
+
+qDebug() << "rx_parsing_ID_UKV";
 }
 
 
