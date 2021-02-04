@@ -9,9 +9,6 @@ Can_init::Can_init(Ui::Widget *_ui)
     pobj_can_timer = new QTimer();
     pobj_ui = _ui;
 
-
-
-
 }
 
 // деструктор
@@ -80,6 +77,7 @@ void Can_init::can_channel_control(void)
       device_name = elem.description();
     }
 
+    qDebug() << "перед if(device_name == PCAN-USB)" ;
     if(device_name == "PCAN-USB")   // если драйвер определяет адаптер
     {
         if(k==0)    // его нужно создавать только 1 раз, а то он перезатирается другими вызовами ф-ии
@@ -115,7 +113,7 @@ void Can_init::can_channel_control(void)
         else if(device->state() == QCanBusDevice::ConnectedState)
         {
             device->disconnectDevice(); // отключаем порт
-            k=0;                        // обнуляем вспомогательную переменную
+//            k=0;                        // обнуляем вспомогательную переменную
 
             // изменяем значение переменных на произвольные
             port_number = "0";

@@ -152,6 +152,7 @@ void Can_corresp::rx_parsing_ID_UKV(void)
 void Can_corresp::on_timer(void)
 {
     can_tx();
+    rx_parsing_ID_UKV();   // вызываем ф-ию разбора посылки
 }
 
 /* @brief  Метод слота на сигнал объекта device на получение посылки
@@ -175,7 +176,6 @@ void Can_corresp::can_rx(void)
             // перегрузка данных из массива-буфера char *data в int-овый массив rx
             for(uint8_t i = 0; i < DATA_NUM; i++)
             {rx[i] = (uint8_t)(data[i]);}
-            rx_parsing_ID_UKV();   // вызываем ф-ию разбора посылки
             break;
         default: break;
         }
