@@ -63,11 +63,16 @@ public:
     }TE_sys_stat;
 
 
+/************ МЕТОДЫ ****************************************/
+void can_tx(void);
+void rx_parsing_ID_UKV(void);
+
+
 
 
 /************ СЛОТЫ ****************************************/
 public slots:
-void can_tx(void);
+void on_timer(void);
 void can_rx(void);
 void checkBox_changed(void);
 void checkBox_2_changed(void);
@@ -80,7 +85,7 @@ void speed_decrease(void);
 void temp_increase(void);
 void temp_decrease(void);
 void btn_reset(void);
-void rx_parsing_ID_UKV(void);
+
 
 
 };

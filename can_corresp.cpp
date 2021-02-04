@@ -22,7 +22,7 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
 /* *********** коннекты ***********************************************/
 
     // CAN-корреспонденция
-    connect(pobj_can_init->pobj_can_timer, SIGNAL(timeout()), this, SLOT(can_tx()));    // отправка посылок по таймеру
+    connect(pobj_can_init->pobj_can_timer, SIGNAL(timeout()), this, SLOT(on_timer()));    // по достижениии таймера макс. значения
 //    connect(pobj_can_init->device, SIGNAL(framesReceived()), this, SLOT(can_rx()));   // не могу понять, почему этот коннект здесь не работает (сделал в widget.cpp)
 
     // задание режимов работы системы
@@ -52,21 +52,7 @@ Can_corresp::~Can_corresp(){}
  *  МЕТОДЫ
  * **************************************************************************************/
 
-/* @brief  Метод разбора посылки от УКВ
- * @param  None
- * @retval None
- */
-void Can_corresp::rx_parsing_ID_UKV(void)
-{
-    qDebug() << "rx_parsing_ID_UKV";
-}
-
-
-/* ***************************************************************************************
- *  СЛОТЫ
- * **************************************************************************************/
-
-/* @brief  Метод слота на сигнал таймера по истечениии 1 сек.
+/* @brief  Метод отправки посылки tx
  * @param  None
  * @retval None
  */
@@ -93,6 +79,30 @@ void Can_corresp::can_tx(void)
     }
     default: break;
     }
+}
+
+
+/* @brief  Метод разбора посылки от УКВ
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::rx_parsing_ID_UKV(void)
+{
+    qDebug() << "rx_parsing_ID_UKV";
+}
+
+
+/* ***************************************************************************************
+ *  СЛОТЫ
+ * **************************************************************************************/
+
+/* @brief  Метод слота на сигнал таймера по истечениии 1 сек.
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::on_timer(void)
+{
+    can_tx();
 }
 
 /* @brief  Метод слота на сигнал объекта device на получение посылки
