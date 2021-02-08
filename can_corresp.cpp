@@ -98,14 +98,14 @@ void Can_corresp::rx_parsing_ID_UKV(void)
     int tmp_supp = rx[DATA1] - 40;  // температура приточника
     uint8_t tmp_sys_mode = rx[DATA3];   // считываем текущий режим
 
-    if(tmp_sys_mode == SYS_OFF || tmp_sys_mode == SYS_ALARM)
+    if(tmp_sys_mode == SYS_OFF)
     {
         pobj_ui->label_27->setNum(0);   // выводим 0 для испарителя
     }
     else if(tmp_evap < -40){pobj_ui->label_27->setNum(0);}      // выводим температуру испарителя
     else{pobj_ui->label_27->setNum(tmp_evap);}
 
-    if(tmp_sys_mode == SYS_OFF || tmp_sys_mode == SYS_ALARM)
+    if(tmp_sys_mode == SYS_OFF)
     {
         pobj_ui->label_25->setNum(0);
     }
