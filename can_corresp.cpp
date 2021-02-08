@@ -8,6 +8,8 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
 {
     pobj_ui = _ui;                  // вспомогательный указатель на объект главного виджета
     pobj_can_init = _pobj_can_init; // вспомогательный указатель на объект Can_init
+    reset_timer = new QTimer();        // таймер установки SYS_OFF после сброса
+    flg_reset = 0;
 
     // инициализируем массивы can
     tx.resize(8);   // устанавливаем размер массива QByteArray tx
@@ -42,6 +44,8 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
     // сброс ошибок
     connect(pobj_ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(btn_reset()));
 
+    // установка режима SYS_OFF после сброса ошибок
+    connect(reset_timer, SIGNAL(timeout()), this, SLOT(on_reset_timer()));
 
 }
 
@@ -130,7 +134,7 @@ void Can_corresp::rx_parsing_ID_UKV(void)
     if(rx[DATA3] == SYS_ALARM)
     {
         k--;
-        if(k < 1)
+        if(flg_reset == 0)
         {
             pobj_ui->checkBox_9->setCheckState(Qt::Checked);    // ставим галочку Авария
             pobj_ui->label_15->setText("ошибка");
@@ -314,12 +318,13 @@ void Can_corresp::btn_reset(void)
 {
     if(rx[DATA3] == SYS_ALARM)
     {
+
+        qDebug() << "btn_reset(void)";
         pobj_ui->checkBox_9->setCheckState(Qt::Unchecked);  // снимаем галочку со строки авария
         pobj_ui->label_15->setText("ошибок нет");
         pobj_ui->label_15->setStyleSheet("QLabel{color: rgb(0, 0, 0); }");  // делаем текст чёрным
 
         // устанавливаем галочку в строке Отключено
-        tx[DATA0] = SYS_RESET;
         if(pobj_ui->checkBox->checkState() == Qt::Unchecked){pobj_ui->checkBox->setCheckState(Qt::Checked);pobj_ui->checkBox->setCheckState(Qt::Checked);}
 
         // снимаем галочки со всех других чекбоксов
@@ -327,6 +332,21 @@ void Can_corresp::btn_reset(void)
         if(pobj_ui->checkBox_3->checkState() == Qt::Checked){pobj_ui->checkBox_3->setCheckState(Qt::Unchecked);}
         if(pobj_ui->checkBox_5->checkState() == Qt::Checked){pobj_ui->checkBox_5->setCheckState(Qt::Unchecked);}
 
+        tx[DATA0] = SYS_RESET;      // начинаем передавать команду сброса аварий
+        reset_timer->start(3000);   // запускаем таймер для последующей установки режима SYS_OFF
+        flg_reset = 1;              // устанавливаем флаг нажатия кнопки reset (сброс - в слоте on_reset_timer() )
 
     }
+}
+
+/* @brief  Метод слота при достижении reset_timer своего значения.
+ * По этому событию команда сброса 0x55 сменяется на SYS_OFF
+ * @param  None
+ * @retval None
+ */
+void Can_corresp::on_reset_timer(void)
+{
+    tx[DATA0] = SYS_OFF;  // начинаем передавать команду SYS_OFF
+    reset_timer->stop();  // останавливаем таймер
+    flg_reset = 0;
 }

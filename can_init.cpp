@@ -77,7 +77,6 @@ void Can_init::can_channel_control(void)
       device_name = elem.description();
     }
 
-    qDebug() << "перед if(device_name == PCAN-USB)" ;
     if(device_name == "PCAN-USB")   // если драйвер определяет адаптер
     {
         if(k==0)    // его нужно создавать только 1 раз, а то он перезатирается другими вызовами ф-ии

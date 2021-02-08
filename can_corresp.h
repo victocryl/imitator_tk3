@@ -10,8 +10,8 @@
 #include "can_init.h"
 
 // айдишники посылок can
-#define ID_H_L 0x00AE0100   // id СУ высокого уровня (исходящая)
-#define ID_UKV 0x00AC0100   // id УКВ (входящая)
+#define ID_H_L 0x1FFFFAAA   // id СУ высокого уровня (исходящая)
+#define ID_UKV 0x1FFFFBBB   // id УКВ (входящая)
 
 // биты аварий
 #define BIT0_NO_CAN               (1 << 0)
@@ -46,6 +46,9 @@ public:
     uint8_t rx[8];              // получаемая посылка
     Ui::Widget *pobj_ui;        // вспомогательный указатель на объект главного виджета
     Can_init *pobj_can_init;    // вспомогательный указатель на объект Can_init
+    QTimer *reset_timer;        // таймер установки SYS_OFF после сброса
+    uint8_t flg_reset;          // флаг нажатия кнопки Reset
+
 
 /*******  enum байтов TX посылок (от Серв. ПО) *************/
     typedef enum canbytes
@@ -94,6 +97,8 @@ void speed_decrease(void);
 void temp_increase(void);
 void temp_decrease(void);
 void btn_reset(void);
+
+void on_reset_timer(void);
 
 
 
