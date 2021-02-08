@@ -96,16 +96,20 @@ void Can_corresp::rx_parsing_ID_UKV(void)
 {
     int tmp_evap = rx[DATA0] - 40;  // температура испарителя
     int tmp_supp = rx[DATA1] - 40;  // температура приточника
+    uint8_t tmp_sys_mode = rx[DATA3];   // считываем текущий режим
 
-    uint8_t del = 3;    // задержка на статус Авария в секундах
-    // k - декрементный счётчик заходов в этот метод
-    // так реализуется задержка, т.к. метод вызывается по таймеру раз в 1с.
-    static uint8_t k = del;
-
-
-    if(tmp_evap < -40){pobj_ui->label_27->setNum(0);}  // выводим температуру испарителя
+    if(tmp_sys_mode == SYS_OFF || tmp_sys_mode == SYS_ALARM)
+    {
+        pobj_ui->label_27->setNum(0);   // выводим 0 для испарителя
+    }
+    else if(tmp_evap < -40){pobj_ui->label_27->setNum(0);}      // выводим температуру испарителя
     else{pobj_ui->label_27->setNum(tmp_evap);}
-    if(tmp_supp < -40){pobj_ui->label_25->setNum(0);}  // выводим температуру приточника
+
+    if(tmp_sys_mode == SYS_OFF || tmp_sys_mode == SYS_ALARM)
+    {
+        pobj_ui->label_25->setNum(0);
+    }
+    else if(tmp_supp < -40){pobj_ui->label_25->setNum(0);}  // выводим температуру приточника
     else{pobj_ui->label_25->setNum(tmp_supp);}
 
     // отображние битов ошибок
@@ -133,13 +137,11 @@ void Can_corresp::rx_parsing_ID_UKV(void)
     else{pobj_ui->checkBox_8->setCheckState(Qt::Unchecked);}
     if(rx[DATA3] == SYS_ALARM)
     {
-        k--;
         if(flg_reset == 0)
         {
             pobj_ui->checkBox_9->setCheckState(Qt::Checked);    // ставим галочку Авария
             pobj_ui->label_15->setText("ошибка");
             pobj_ui->label_15->setStyleSheet("QLabel{color: rgb(255, 10, 0); }");  // делаем текст красным
-            k = del;
         }
     }
 }
