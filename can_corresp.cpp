@@ -320,8 +320,6 @@ void Can_corresp::btn_reset(void)
 {
     if(rx[DATA3] == SYS_ALARM)
     {
-
-        qDebug() << "btn_reset(void)";
         pobj_ui->checkBox_9->setCheckState(Qt::Unchecked);  // снимаем галочку со строки авария
         pobj_ui->label_15->setText("ошибок нет");
         pobj_ui->label_15->setStyleSheet("QLabel{color: rgb(0, 0, 0); }");  // делаем текст чёрным

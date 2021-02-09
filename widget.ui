@@ -408,6 +408,16 @@
             </layout>
            </item>
            <item>
+            <widget class="QLabel" name="label_38">
+             <property name="text">
+              <string>(изменять режим - двойным кликом мыши)</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="verticalSpacer_7">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
