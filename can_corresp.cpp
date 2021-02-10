@@ -213,7 +213,7 @@ void Can_corresp::checkBox_changed(void)
  */
 void Can_corresp::checkBox_2_changed(void)
 {
-    uint8_t tmp_sys_mode = tx[DATA0];   // считываем текущий режим
+    uint8_t tmp_sys_mode = tx[DATA0];   // считываем текущий режим.
     // снимаем галочки со всех других чекбоксов
     if(pobj_ui->checkBox->checkState() == Qt::Checked){pobj_ui->checkBox->setCheckState(Qt::Unchecked);}
     if(pobj_ui->checkBox_3->checkState() == Qt::Checked){pobj_ui->checkBox_3->setCheckState(Qt::Unchecked);}
