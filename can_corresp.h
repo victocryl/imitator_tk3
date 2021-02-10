@@ -10,8 +10,8 @@
 #include "can_init.h"
 
 // айдишники посылок can
-#define ID_H_L 0x1FFFFAAA   // id СУ высокого уровня (исходящая)
-#define ID_UKV 0x1FFFFBBB   // id УКВ (входящая)
+#define ID_H_L 0x00AE0100   // id СУ высокого уровня (исходящая)
+#define ID_UKV 0x00AC0100   // id УКВ (входящая)
 
 // биты аварий
 #define BIT0_NO_CAN               (1 << 0)
