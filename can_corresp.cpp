@@ -10,7 +10,7 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
     pobj_can_init = _pobj_can_init; // вспомогательный указатель на объект Can_init
     reset_timer = new QTimer();        // таймер установки SYS_OFF после сброса
     flg_reset = 0;
-    sub_sys_stat;       // дополн. перем., хранящая жел. статус системы если он изм. во время таймаута Reset
+    sub_sys_stat = 0;       // дополн. перем., хранящая жел. статус системы если он изм. во время таймаута Reset
 
     // инициализируем массивы can
     tx.resize(8);   // устанавливаем размер массива QByteArray tx
