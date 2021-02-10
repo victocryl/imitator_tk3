@@ -10,6 +10,7 @@ Can_corresp::Can_corresp(Ui::Widget *_ui, Can_init *_pobj_can_init)
     pobj_can_init = _pobj_can_init; // вспомогательный указатель на объект Can_init
     reset_timer = new QTimer();        // таймер установки SYS_OFF после сброса
     flg_reset = 0;
+    sub_sys_stat;       // дополн. перем., хранящая жел. статус системы если он изм. во время таймаута Reset
 
     // инициализируем массивы can
     tx.resize(8);   // устанавливаем размер массива QByteArray tx
@@ -202,6 +203,8 @@ void Can_corresp::checkBox_changed(void)
     // устанавливаем статус системы в tx
     if(pobj_ui->checkBox->checkState() == Qt::Checked){tx[DATA0] = SYS_OFF;}
     else{tx[DATA0] = tmp_sys_mode;}
+    // записываем во вспом. перем. статус системы (нужно для запуска этого режима после таймаута на reset)
+    sub_sys_stat = SYS_OFF;
 }
 
 /* @brief  Метод слота на клик checkBox_2 (включено)
@@ -218,6 +221,8 @@ void Can_corresp::checkBox_2_changed(void)
     // устанавливаем статус системы в tx
     if(pobj_ui->checkBox_2->checkState() == Qt::Checked){tx[DATA0] = SYS_ON;}
     else{tx[DATA0] = tmp_sys_mode;}
+    // записываем во вспом. перем. статус системы (нужно для запуска этого режима после таймаута на reset)
+    sub_sys_stat = SYS_ON;
 }
 
 /* @brief  Метод слота на клик checkBox_3 (вентиляция)
@@ -234,6 +239,8 @@ void Can_corresp::checkBox_3_changed(void)
     // устанавливаем статус системы в tx
     if(pobj_ui->checkBox_3->checkState() == Qt::Checked){tx[DATA0] = SYS_VENT;}
     else{tx[DATA0] = tmp_sys_mode;}
+    // записываем во вспом. перем. статус системы (нужно для запуска этого режима после таймаута на reset)
+    sub_sys_stat = SYS_VENT;
 }
 
 /* @brief  Метод слота на клик checkBox_5 (охлаждение)
@@ -250,6 +257,8 @@ void Can_corresp::checkBox_5_changed(void)
     // устанавливаем статус системы в tx
     if(pobj_ui->checkBox_5->checkState() == Qt::Checked){tx[DATA0] = SYS_A_COND;}
     else{tx[DATA0] = tmp_sys_mode;}
+    // записываем во вспом. перем. статус системы (нужно для запуска этого режима после таймаута на reset)
+    sub_sys_stat = SYS_A_COND;
 }
 
 /* @brief  Метод слота на увеличение скорости вентилятора
@@ -335,6 +344,7 @@ void Can_corresp::btn_reset(void)
         tx[DATA0] = SYS_RESET;      // начинаем передавать команду сброса аварий
         reset_timer->start(3000);   // запускаем таймер для последующей установки режима SYS_OFF
         flg_reset = 1;              // устанавливаем флаг нажатия кнопки reset (сброс - в слоте on_reset_timer() )
+        sub_sys_stat = SYS_OFF;     // записываем во вспомог перем. статус системы после сброса по умолч.
 
     }
 }
@@ -346,7 +356,7 @@ void Can_corresp::btn_reset(void)
  */
 void Can_corresp::on_reset_timer(void)
 {
-    tx[DATA0] = SYS_OFF;  // начинаем передавать команду SYS_OFF
+    tx[DATA0] = sub_sys_stat;   // начинаем передавать команду, записанную во вспом. переменную
     reset_timer->stop();  // останавливаем таймер
     flg_reset = 0;
 }
